@@ -1,0 +1,24 @@
+driver:
+  name: dokken
+  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
+
+transport:
+  name: dokken
+
+verifier:
+  name: inspec
+
+provisioner:
+  name: dokken
+  deprecations_as_errors: true
+
+platforms:
+- name: centos-7
+  driver:
+    image: dokken/centos-7
+    pid_one_command: /usr/lib/systemd/systemd
+
+suites:
+  - name: default
+    run_list:
+      - recipe[strongdm::default]
