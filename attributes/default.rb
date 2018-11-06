@@ -17,8 +17,8 @@
 # limitations under the License.
 #
 
-default['strongdm']['version'] = '0.7.46'
-default['strongdm']['checksum'] = 'b95318713b6e313b6619d73d479566880a2210f374266a1bbe9a3f35f9338e1d'
+default['strongdm']['version'] = '0.7.48'
+default['strongdm']['checksum'] = '729dd87c1ec4f48be4d37816cf5789c397e3b11de8bf878ab5acdc6b30485145'
 
 default['strongdm']['install_dir'] = '/opt/strongdm'
 default['strongdm']['user'] = 'strongdm'
