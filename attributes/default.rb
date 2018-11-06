@@ -19,3 +19,6 @@
 
 default['strongdm']['version'] = '0.7.46'
 default['strongdm']['checksum'] = 'b95318713b6e313b6619d73d479566880a2210f374266a1bbe9a3f35f9338e1d'
+
+default['strongdm']['install_dir'] = '/opt/strongdm'
+default['strongdm']['user'] = 'strongdm'

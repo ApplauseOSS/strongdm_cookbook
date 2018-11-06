@@ -21,9 +21,27 @@ include_recipe 'ark'
 
 ver = node['strongdm']['version']
 
+user node['strongdm']['user']
+
+directory "/home/#{node['strongdm']['user']}/.sdm" do
+  recursive true
+  owner node['strongdm']['user']
+  group node['strongdm']['user']
+end
+
+directory "#{node['strongdm']['install_dir']}/bin" do
+  recursive true
+  owner node['strongdm']['user']
+  group node['strongdm']['user']
+end
+
 ark 'sdm' do
   action :cherry_pick
   url "https://sdm-releases-production.s3.amazonaws.com/nightly/linux/sdmcli_#{ver}_linux_amd64.zip"
-  path '/usr/local/bin'
+  path "#{node['strongdm']['install_dir']}/bin"
   creates 'sdm'
+end
+
+link '/usr/local/bin/sdm' do
+  to "#{node['strongdm']['install_dir']}/bin/sdm"
 end
