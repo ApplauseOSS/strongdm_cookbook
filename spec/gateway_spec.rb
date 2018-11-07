@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: strongdm
-# Recipe:: default
+# Spec:: gateway
 #
 # Copyright © 2018 Applause App Quality, Inc.
 #
@@ -17,17 +17,25 @@
 # limitations under the License.
 #
 
-include_recipe 'ark'
+require 'spec_helper'
 
-user node['strongdm']['user'] do
-  home '/opt/strongdm'
-  manage_home true
-end
+describe 'strongdm::gateway' do
+  context 'with all attributes default' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new(platform: 'centos', version: '7.4.1708') do |node|
+      end.converge(described_recipe)
+    end
 
-ark 'sdm' do
-  action :cherry_pick
-  url 'https://app.strongdm.com/releases/cli/linux'
-  path Chef::Config['file_cache_path']
-  extension 'zip'
-  creates 'sdm'
+    it 'runs ruby_block[get-relay-token]' do
+      expect(chef_run).to run_ruby_block('get-relay-token')
+    end
+
+    it 'runs execute[sdm-install-gateway]' do
+      expect(chef_run).to run_execute('sdm-install-gateway')
+    end
+
+    it 'converges successfully' do
+      expect { chef_run }.to_not raise_error
+    end
+  end
 end
