@@ -34,20 +34,8 @@ describe 'strongdm::default' do
       expect(chef_run).to create_user('strongdm')
     end
 
-    it 'creates .sdm directory' do
-      expect(chef_run).to create_directory('/home/strongdm/.sdm')
-    end
-
-    it 'creates /opt/strongdm/bin directory' do
-      expect(chef_run).to create_directory('/opt/strongdm/bin')
-    end
-
     it 'cherry-picks sdm from ZIP' do
       expect(chef_run).to cherry_pick_ark('sdm')
-    end
-
-    it 'creates /usr/local/bin/sdm symlink' do
-      expect(chef_run).to create_link('/usr/local/bin/sdm')
     end
 
     it 'converges successfully' do
