@@ -17,8 +17,9 @@
 # limitations under the License.
 #
 
-describe file('/usr/local/bin/sdm') do
-  it { should exist }
-  it { should be_readable }
-  it { should be_executable }
-end
+### TODO: replace this with something useful
+# describe file('/usr/local/bin/sdm') do
+#   it { should exist }
+#   it { should be_readable }
+#   it { should be_executable }
+# end
