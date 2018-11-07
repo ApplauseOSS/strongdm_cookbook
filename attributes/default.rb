@@ -20,9 +20,13 @@
 # Set this however you see fit
 default['strongdm']['admin_token'] = nil
 
+# Installation user
 default['strongdm']['user'] = 'strongdm'
 
 # gateway/relay configuration
 default['strongdm']['gateway_port'] = 5000
 default['strongdm']['gateway_bind_address'] = '0.0.0.0'
 default['strongdm']['gateway_bind_port'] = 5000
+
+# SSH roles to grant
+default['strongdm']['default_grant_roles'] = []

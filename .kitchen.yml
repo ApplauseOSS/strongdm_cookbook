@@ -1,5 +1,7 @@
 driver:
   name: dokken
+  hostname: dokken.local
+  privileged: true # systemd, docker, and sysctl, oh my!
   chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
 
 transport:
@@ -13,12 +15,29 @@ provisioner:
   deprecations_as_errors: true
 
 platforms:
-- name: centos-7
-  driver:
-    image: dokken/centos-7
-    pid_one_command: /usr/lib/systemd/systemd
+  - name: centos-7
+    driver:
+      image: dokken/centos-7
+      pid_one_command: /usr/lib/systemd/systemd
+      cap_add:
+        - SYS_ADMIN
+      volumes:
+        - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
 suites:
   - name: default
     run_list:
       - recipe[strongdm::default]
+  - name: gateway
+    run_list:
+      - recipe[strongdm::gateway]
+    attributes:
+      strongdm:
+        admin_token: CHANGEME
+  - name: server
+    run_list:
+      - recipe[openssh::default]
+      - recipe[strongdm::server]
+    attributes:
+      strongdm:
+        admin_token: CHANGEME
