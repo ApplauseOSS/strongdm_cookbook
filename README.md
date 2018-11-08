@@ -1,7 +1,7 @@
 # strongdm cookbook
 
 [![Cookbook Version](http://img.shields.io/cookbook/v/strongdm.svg)](https://supermarket.getchef.com/cookbooks/strongdm)
-[![Build Status](https://secure.travis-ci.org/ApplauseOSS/cookbook-strongdm.svg?branch=master)](http://travis-ci.org/ApplauseOSS/strongdm_cookbook)
+[![Build Status](https://secure.travis-ci.org/ApplauseOSS/strongdm_cookbook.svg?branch=master)](http://travis-ci.org/ApplauseOSS/strongdm_cookbook)
 
 ## Description
 

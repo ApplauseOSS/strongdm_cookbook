@@ -1,10 +1,10 @@
 name             'strongdm'
-maintainer       'Chris Gianelloni'
-maintainer_email 'cgianelloni@applause.com'
+maintainer       'Applause App Quality, Inc.'
+maintainer_email 'ops@applause.com'
 license          'Apache-2.0'
 description      'Installs and configures strongDM'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.0.4'
+version          '0.1.0'
 
 depends 'ark', '~> 3.1.1'
 
