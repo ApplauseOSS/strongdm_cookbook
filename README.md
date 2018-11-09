@@ -23,6 +23,9 @@ user to provide an admin token which has the following permissions:
 
 - relay:create
 
+NOTE: The installation requires SELinux to be disabled. This is done outside
+this cookbook.
+
 ### server
 
 Automatically registers a host as a strongDM server relay. This requires the
