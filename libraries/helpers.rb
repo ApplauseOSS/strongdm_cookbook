@@ -25,7 +25,7 @@ module StrongDM
         'relay',
         type == 'relay' ? 'create' : 'create-gateway',
         '--name',
-        node['hostname'],
+        node['fqdn'],
         "#{node['ipaddress']}:#{node['strongdm']['gateway_port']}",
         "#{node['strongdm']['gateway_bind_address']}:#{node['strongdm']['gateway_bind_port']}",
         'env' => {
