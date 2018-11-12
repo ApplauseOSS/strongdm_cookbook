@@ -46,6 +46,12 @@ execute 'sdm-ssh-pubkey' do
   action :nothing
   cwd Chef::Config['file_cache_path']
   environment('SDM_ADMIN_TOKEN' => node['strongdm']['admin_token'])
+  creates '/opt/strongdm/.ssh/authorized_keys'
+end
+
+file '/opt/strongdm/.ssh/authorized_keys' do
+  owner node['strongdm']['user']
+  group node['strongdm']['user']
 end
 
 node['strongdm']['default_grant_roles'].each do |role|
