@@ -44,5 +44,11 @@ execute 'sdm-install-gateway' do
       }
     end
   )
-  creates '/opt/strongdm/bin/sdm'
+  creates '/etc/systemd/system/sdm-proxy.service'
+  notifies :delete, 'directory[/root/.sdm]', :immediately
+end
+
+directory '/root/.sdm' do
+  action :nothing
+  recursive true
 end
