@@ -34,6 +34,11 @@ describe 'strongdm::gateway' do
       expect(chef_run).to run_execute('sdm-install-gateway')
     end
 
+    it 'triggers removal of /root/.sdm' do
+      expect(chef_run.directory('/root/.sdm')).to do_nothing
+      expect(chef_run.execute('sdm-install-gateway')).to notify('directory[/root/.sdm]')
+    end
+
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
