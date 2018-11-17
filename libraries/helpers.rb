@@ -21,7 +21,7 @@ module StrongDM
   module Helpers
     def sdm_relay_token(type = 'gateway')
       token = Mixlib::ShellOut.new(
-        "#{Chef::Config['file_cache_path']}/sdm",
+        sdm,
         'relay',
         type == 'relay' ? 'create' : 'create-gateway',
         '--name',
@@ -37,7 +37,11 @@ module StrongDM
       Mixlib::ShellOut.new('rm -f /root/.sdm/*').run_command
       token.stdout.chomp
     end
+
+    def sdm
+      return "#{Chef::Config['file_cache_path']}/sdm" if lazy { ::File.exist?("#{Chef::Config['file_cache_path']}/sdm") }
+      # assume we're in the PATH
+      'sdm'
+    end
   end
 end
-
-Chef::Resource::RubyBlock.send(:include, StrongDM::Helpers)
