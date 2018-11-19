@@ -19,8 +19,10 @@
 
 include_recipe 'strongdm::default'
 
-relay_token = ''
+Chef::Resource::RubyBlock.send(:include, StrongDM::Helpers)
+Chef::Resource::Execute.send(:include, StrongDM::Helpers)
 
+relay_token = ''
 ruby_block 'get-relay-token' do
   block do
     relay_token = sdm_relay_token
@@ -28,7 +30,7 @@ ruby_block 'get-relay-token' do
 end
 
 execute 'sdm-install-gateway' do
-  command "#{Chef::Config['file_cache_path']}/sdm install --relay"
+  command "#{sdm} install --relay"
   environment(
     lazy do
       {
