@@ -19,15 +19,15 @@
 
 module StrongDM
   module Helpers
-    def sdm_relay_token(type = 'gateway')
+    def sdm_relay_token(type = 'relay')
       token = Mixlib::ShellOut.new(
         sdm,
         'relay',
-        type == 'relay' ? 'create' : 'create-gateway',
+        type == 'gateway' ? 'create-gateway' : 'create',
         '--name',
         node['fqdn'],
-        "#{node['ipaddress']}:#{node['strongdm']['gateway_port']}",
-        "#{node['strongdm']['gateway_bind_address']}:#{node['strongdm']['gateway_bind_port']}",
+        "#{node['ipaddress']}:#{node['strongdm']["#{type}_port"]}",
+        "#{node['strongdm']["#{type}_bind_address"]}:#{node['strongdm']["#{type}_bind_port"]}",
         'env' => {
           'SDM_ADMIN_TOKEN' => node['strongdm']['admin_token'],
         }

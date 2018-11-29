@@ -27,6 +27,9 @@ default['strongdm']['user'] = 'strongdm'
 default['strongdm']['gateway_port'] = 5000
 default['strongdm']['gateway_bind_address'] = '0.0.0.0'
 default['strongdm']['gateway_bind_port'] = 5000
+default['strongdm']['relay_port'] = 5000
+default['strongdm']['relay_bind_address'] = '0.0.0.0'
+default['strongdm']['relay_bind_port'] = 5000
 
 # SSH roles to grant
 default['strongdm']['default_grant_roles'] = []

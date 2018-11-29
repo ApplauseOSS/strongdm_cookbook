@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: strongdm
-# Recipe:: gateway
+# Recipe:: relay
 #
 # Copyright © 2018 Applause App Quality, Inc.
 #
@@ -25,11 +25,11 @@ Chef::Resource::Execute.send(:include, StrongDM::Helpers)
 relay_token = ''
 ruby_block 'get-relay-token' do
   block do
-    relay_token = sdm_relay_token('gateway')
+    relay_token = sdm_relay_token('relay')
   end
 end
 
-execute 'sdm-install-gateway' do
+execute 'sdm-install-relay' do
   command "#{sdm} install --relay"
   environment(
     lazy do
