@@ -24,13 +24,6 @@ Chef::Resource::Execute.send(:include, StrongDM::Helpers)
 execute 'sdm-login-with-admin-token' do
   command "#{sdm} login"
   environment('SDM_ADMIN_TOKEN' => node['strongdm']['admin_token'])
-  creates '/root/.sdm/auth.json'
-end
-
-execute 'sdm-admin-add-servers' do
-  command "#{sdm} admin servers add -p #{node['fqdn']} #{node['strongdm']['user']}@#{node['ipaddress']}"
-  environment('SDM_ADMIN_TOKEN' => node['strongdm']['admin_token'])
-  not_if "#{sdm} admin servers list | grep #{node['fqdn']}"
 end
 
 directory '/opt/strongdm/.ssh' do
@@ -38,13 +31,12 @@ directory '/opt/strongdm/.ssh' do
   owner node['strongdm']['user']
   group node['strongdm']['user']
   mode 0700
-  notifies :run, 'execute[sdm-ssh-pubkey]', :immediately
 end
 
-execute 'sdm-ssh-pubkey' do
-  command "#{sdm} ssh pubkey #{node['fqdn']} | tee -a /opt/strongdm/.ssh/authorized_keys"
-  action :nothing
+execute 'sdm-admin-add-servers' do
+  command "#{sdm} admin servers add -p #{node['fqdn']} #{node['strongdm']['user']}@#{node['ipaddress']} >> /opt/strongdm/.ssh/authorized_keys"
   environment('SDM_ADMIN_TOKEN' => node['strongdm']['admin_token'])
+  not_if "#{sdm} admin servers list | grep #{node['fqdn']}"
   creates '/opt/strongdm/.ssh/authorized_keys'
 end
 

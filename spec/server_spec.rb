@@ -43,10 +43,6 @@ describe 'strongdm::server' do
       expect(chef_run).to create_file('/opt/strongdm/.ssh/authorized_keys')
     end
 
-    it 'does not run execute[sdm-ssh-pubkey]' do
-      expect(chef_run.execute('sdm-ssh-pubkey')).to do_nothing
-    end
-
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
