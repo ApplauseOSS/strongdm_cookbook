@@ -27,10 +27,6 @@ describe 'strongdm::server' do
       end.converge(described_recipe)
     end
 
-    it 'runs execute[sdm-login-with-admin-token]' do
-      expect(chef_run).to run_execute('sdm-login-with-admin-token')
-    end
-
     it 'runs execute[sdm-admin-add-servers]' do
       expect(chef_run).to run_execute('sdm-admin-add-servers')
     end

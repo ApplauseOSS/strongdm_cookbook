@@ -21,11 +21,6 @@ include_recipe 'strongdm::default'
 
 Chef::Resource::Execute.send(:include, StrongDM::Helpers)
 
-execute 'sdm-login-with-admin-token' do
-  command "#{sdm} login"
-  environment('SDM_ADMIN_TOKEN' => node['strongdm']['admin_token'])
-end
-
 directory '/opt/strongdm/.sdm' do
   recursive true
   owner node['strongdm']['user']
