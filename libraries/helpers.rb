@@ -26,7 +26,7 @@ module StrongDM
         type == 'gateway' ? 'create-gateway' : 'create',
         '--name',
         node['fqdn'],
-        "#{node['ipaddress']}:#{node['strongdm']["#{type}_port"]}",
+        "#{node['strongdm']["#{type}_advertise_address"]}:#{node['strongdm']["#{type}_port"]}",
         "#{node['strongdm']["#{type}_bind_address"]}:#{node['strongdm']["#{type}_bind_port"]}",
         'env' => {
           'SDM_ADMIN_TOKEN' => node['strongdm']['admin_token'],
