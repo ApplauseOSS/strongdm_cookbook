@@ -26,6 +26,13 @@ execute 'sdm-login-with-admin-token' do
   environment('SDM_ADMIN_TOKEN' => node['strongdm']['admin_token'])
 end
 
+directory '/opt/strongdm/.sdm' do
+  recursive true
+  owner node['strongdm']['user']
+  group node['strongdm']['user']
+  mode 0700
+end
+
 directory '/opt/strongdm/.ssh' do
   recursive true
   owner node['strongdm']['user']
@@ -45,9 +52,18 @@ file '/opt/strongdm/.ssh/authorized_keys' do
   group node['strongdm']['user']
 end
 
+file '/opt/strongdm/.sdm/roles' do
+  content node['strongdm']['default_grant_roles'].join(',')
+  owner node['strongdm']['user']
+  group node['strongdm']['user']
+end
+
 node['strongdm']['default_grant_roles'].each do |role|
   execute "sdm-admin-roles-grant-#{role}" do
     command "#{sdm} admin roles grant #{node['fqdn']} #{role}"
     environment('SDM_ADMIN_TOKEN' => node['strongdm']['admin_token'])
+    action :nothing
+    subscribes :run, 'file[/opt/strongdm/.sdm/roles]', :immediately
+    not_if { node['strongdm']['default_grant_roles'].empty? }
   end
 end
