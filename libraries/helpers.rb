@@ -38,6 +38,19 @@ module StrongDM
       token.stdout.chomp
     end
 
+    def sdm_grant_role(role, host = node['fqdn'])
+      grant = Mixlib::ShellOut.new(
+        sdm,
+        'admin', 'roles', 'grant',
+        host,
+        role,
+        'env' => {
+          'SDM_ADMIN_TOKEN' => node['strongdm']['admin_token'],
+        }
+      )
+      grant.run_command
+    end
+
     def sdm
       return "#{Chef::Config['file_cache_path']}/sdm" if lazy { ::File.exist?("#{Chef::Config['file_cache_path']}/sdm") }
       # assume we're in the PATH
