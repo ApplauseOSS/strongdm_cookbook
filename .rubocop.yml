@@ -1,2 +1,4 @@
 LineLength:
   Enabled: false
+Metrics/ParameterLists:
+  Max: 7

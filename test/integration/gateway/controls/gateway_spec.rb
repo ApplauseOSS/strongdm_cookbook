@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: strongdm
-# Spec:: relay
+# Spec:: gateway
 #
 # Copyright © 2018 Applause App Quality, Inc.
 #
@@ -17,23 +17,23 @@
 # limitations under the License.
 #
 
-require 'spec_helper'
+describe file('/usr/local/bin/sdm') do
+  it { should exist }
+  it { should be_readable }
+  it { should be_executable }
+  it { should be_symlink }
+  its('link_path') { should eq '/opt/strongdm/bin/sdm' }
+end
 
-describe 'strongdm::relay' do
-  context 'with all attributes default' do
-    cached(:chef_run) do
-      ChefSpec::SoloRunner.new(platform: 'centos', version: '7.4.1708') do |node|
-      end.converge(described_recipe)
-    end
+describe file('/etc/sysconfig/sdm-proxy') do
+  it { should exist }
+  it { should be_readable }
+  its('owner') { should eq 'strongdm' }
+  its('content') { should include 'SDM_RELAY_TOKEN=' }
+end
 
-    it 'creates sdm relay install' do
-      expect(chef_run).to create_strongdm_install('fauxhai.local').with(
-        type: 'relay'
-      )
-    end
-
-    it 'converges successfully' do
-      expect { chef_run }.to_not raise_error
-    end
-  end
+describe service('sdm-proxy') do
+  it { should be_installed }
+  it { should be_enabled }
+  it { should be_running }
 end

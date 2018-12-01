@@ -26,17 +26,10 @@ describe 'strongdm::gateway' do
       end.converge(described_recipe)
     end
 
-    it 'runs ruby_block[get-relay-token]' do
-      expect(chef_run).to run_ruby_block('get-relay-token')
-    end
-
-    it 'runs execute[sdm-install-gateway]' do
-      expect(chef_run).to run_execute('sdm-install-gateway')
-    end
-
-    it 'triggers removal of /root/.sdm' do
-      expect(chef_run.directory('/root/.sdm')).to do_nothing
-      expect(chef_run.execute('sdm-install-gateway')).to notify('directory[/root/.sdm]')
+    it 'creates sdm gateway install' do
+      expect(chef_run).to create_strongdm_install('fauxhai.local').with(
+        type: 'gateway'
+      )
     end
 
     it 'converges successfully' do
