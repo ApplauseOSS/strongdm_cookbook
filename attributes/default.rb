@@ -24,12 +24,14 @@ default['strongdm']['admin_token'] = nil
 default['strongdm']['user'] = 'strongdm'
 
 # gateway/relay configuration
-default['strongdm']['gateway_port'] = 5000
+default['strongdm']['gateway_advertise_address'] = node['ipaddress']
 default['strongdm']['gateway_bind_address'] = '0.0.0.0'
 default['strongdm']['gateway_bind_port'] = 5000
-default['strongdm']['relay_port'] = 5000
+default['strongdm']['gateway_port'] = 5000
+default['strongdm']['relay_advertise_address'] = node['ipaddress']
 default['strongdm']['relay_bind_address'] = '0.0.0.0'
 default['strongdm']['relay_bind_port'] = 5000
+default['strongdm']['relay_port'] = 5000
 
 # SSH roles to grant
 default['strongdm']['default_grant_roles'] = []
