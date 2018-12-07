@@ -26,7 +26,7 @@ end
 
 ark 'sdm' do
   action :cherry_pick
-  url 'https://app.strongdm.com/releases/cli/linux'
+  url node['strongdm']['url']
   path Chef::Config['file_cache_path']
   extension 'zip'
   creates 'sdm'

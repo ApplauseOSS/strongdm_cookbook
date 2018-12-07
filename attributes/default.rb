@@ -21,6 +21,7 @@
 default['strongdm']['admin_token'] = nil
 
 # Installation user
+default['strongdm']['url'] = 'https://app.strongdm.com/releases/cli/linux'
 default['strongdm']['user'] = 'strongdm'
 
 # gateway/relay configuration
