@@ -25,6 +25,6 @@ strongdm_install node['fqdn'] do
   bind_address node['strongdm']['gateway_bind_address']
   bind_port node['strongdm']['gateway_bind_port']
   port node['strongdm']['gateway_port']
-  user node['strongdm']['user']
+  user_name node['strongdm']['user']
   action :create
 end

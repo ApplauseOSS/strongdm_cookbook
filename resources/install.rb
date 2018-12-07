@@ -25,20 +25,25 @@ property :instance_name, String, name_property: true
 property :port, [String, Integer], default: 5000
 property :relay_token, [NilClass, String], default: nil
 property :type, [String, Array], default: 'relay'
-property :user, [String, Integer], default: 'strongdm'
+property :user_name, [String, Integer], default: 'strongdm'
 
 action :create do
   admin_token = new_resource.admin_token ? new_resource.admin_token : node['strongdm']['admin_token']
   ip = new_resource.advertise_address ? new_resource.advertise_address : node.run_state['ipaddress']
+
+  user new_resource.user_name do
+    home home_dir
+    manage_home true
+  end
 
   execute "sdm install #{new_resource.type}" do
     command "#{sdm} install --relay"
     environment(
       lazy do
         {
-          'SUDO_GID' => sdm_gid(new_resource.user),
-          'SUDO_UID' => sdm_uid(new_resource.user),
-          'SUDO_USER' => new_resource.user,
+          'SUDO_GID' => sdm_gid(new_resource.user_name),
+          'SUDO_UID' => sdm_uid(new_resource.user_name),
+          'SUDO_USER' => new_resource.user_name,
           'HOME' => '/root',
           'LOGNAME' => 'root',
           'UID' => '0',

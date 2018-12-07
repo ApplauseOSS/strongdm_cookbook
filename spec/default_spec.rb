@@ -30,10 +30,6 @@ describe 'strongdm::default' do
       expect(chef_run).to include_recipe('ark::default')
     end
 
-    it 'creates strongdm user' do
-      expect(chef_run).to create_user('strongdm')
-    end
-
     it 'cherry-picks sdm from ZIP' do
       expect(chef_run).to cherry_pick_ark('sdm')
     end

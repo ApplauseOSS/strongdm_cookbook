@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: strongdm
-# Recipe:: default
+# Spec:: server
 #
 # Copyright © 2018 Applause App Quality, Inc.
 #
@@ -17,12 +17,10 @@
 # limitations under the License.
 #
 
-include_recipe 'ark'
+describe user('strongdm') do
+  it { should exist }
+end
 
-ark 'sdm' do
-  action :cherry_pick
-  url node['strongdm']['url']
-  path Chef::Config['file_cache_path']
-  extension 'zip'
-  creates 'sdm'
+describe file('/home/strongdm/.ssh/authorized_keys') do
+  it { should exist }
 end

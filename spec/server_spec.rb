@@ -27,24 +27,10 @@ describe 'strongdm::server' do
       end.converge(described_recipe)
     end
 
-    it 'runs execute[sdm-admin-add-servers]' do
-      expect(chef_run).to run_execute('sdm-admin-add-servers')
-    end
-
-    it 'creates /opt/strongdm/.sdm' do
-      expect(chef_run).to create_directory('/opt/strongdm/.sdm')
-    end
-
-    it 'creates /opt/strongdm/.ssh' do
-      expect(chef_run).to create_directory('/opt/strongdm/.ssh')
-    end
-
-    it 'creates /opt/strongdm/.ssh/authorized_keys' do
-      expect(chef_run).to create_file('/opt/strongdm/.ssh/authorized_keys')
-    end
-
-    it 'creates /opt/strongdm/.sdm/roles' do
-      expect(chef_run).to create_file('/opt/strongdm/.sdm/roles')
+    it 'creates strongdm SSH configuration' do
+      expect(chef_run).to create_strongdm_server('fauxhai.local').with(
+        granted_roles: []
+      )
     end
 
     it 'converges successfully' do
