@@ -19,38 +19,12 @@
 
 include_recipe 'strongdm::default'
 
-Chef::Resource::RubyBlock.send(:include, StrongDM::Helpers)
-Chef::Resource::Execute.send(:include, StrongDM::Helpers)
-
-relay_token = ''
-ruby_block 'get-relay-token' do
-  block do
-    relay_token = sdm_relay_token('gateway')
-  end
-end
-
-execute 'sdm-install-gateway' do
-  command "#{sdm} install --relay"
-  environment(
-    lazy do
-      {
-        'SUDO_GID' => Mixlib::ShellOut.new("getent passwd #{node['strongdm']['user']}").run_command.stdout.split(':')[3],
-        'SUDO_UID' => Mixlib::ShellOut.new("getent passwd #{node['strongdm']['user']}").run_command.stdout.split(':')[2],
-        'SUDO_USER' => node['strongdm']['user'],
-        'HOME' => '/root',
-        'LOGNAME' => 'root',
-        'UID' => '0',
-        'USER' => 'root',
-        'USERNAME' => 'root',
-        'SDM_RELAY_TOKEN' => relay_token,
-      }
-    end
-  )
-  creates '/etc/systemd/system/sdm-proxy.service'
-  notifies :delete, 'directory[/root/.sdm]', :immediately
-end
-
-directory '/root/.sdm' do
-  action :nothing
-  recursive true
+strongdm_install node['fqdn'] do
+  type 'gateway'
+  advertise_address node['strongdm']['gateway_advertise_address']
+  bind_address node['strongdm']['gateway_bind_address']
+  bind_port node['strongdm']['gateway_bind_port']
+  port node['strongdm']['gateway_port']
+  user node['strongdm']['user']
+  action :create
 end
