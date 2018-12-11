@@ -24,7 +24,7 @@ strongdm_install node['fqdn'] do
   bind_address node['strongdm']['relay_bind_address']
   bind_port node['strongdm']['relay_bind_port']
   port node['strongdm']['relay_port']
-  user node['strongdm']['user']
+  user_name node['strongdm']['user']
   type 'relay'
   action :create
 end
