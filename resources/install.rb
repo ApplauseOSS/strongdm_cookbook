@@ -21,6 +21,7 @@ property :admin_token, [NilClass, String], default: nil
 property :advertise_address, [NilClass, String], default: nil
 property :bind_address, String, default: '0.0.0.0'
 property :bind_port, [String, Integer], default: 5000
+property :home_dir, [NilClass, String]
 property :instance_name, String, name_property: true
 property :port, [String, Integer], default: 5000
 property :relay_token, [NilClass, String], default: nil
@@ -30,6 +31,8 @@ property :user_name, [String, Integer], default: 'strongdm'
 action :create do
   admin_token = new_resource.admin_token ? new_resource.admin_token : node['strongdm']['admin_token']
   ip = new_resource.advertise_address ? new_resource.advertise_address : node.run_state['ipaddress']
+  ### TODO: make this pick the correct location
+  home_dir = new_resource.home_dir ? new_resource.home_dir : "/home/#{new_resource.user_name}"
 
   user new_resource.user_name do
     home home_dir
