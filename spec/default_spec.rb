@@ -2,7 +2,7 @@
 # Cookbook Name:: strongdm
 # Spec:: default
 #
-# Copyright © 2018 Applause App Quality, Inc.
+# Copyright © 2018-2019 Applause App Quality, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,12 +26,16 @@ describe 'strongdm::default' do
       end.converge(described_recipe)
     end
 
-    it 'includes ark recipe' do
-      expect(chef_run).to include_recipe('ark::default')
+    it 'installs unzip' do
+      expect(chef_run).to install_package('unzip')
     end
 
-    it 'cherry-picks sdm from ZIP' do
-      expect(chef_run).to cherry_pick_ark('sdm')
+    it 'downloads sdm.zip' do
+      expect(chef_run).to create_remote_file("#{Chef::Config['file_cache_path']}/sdm.zip")
+    end
+
+    it 'extracts sdm.zip' do
+      expect(chef_run).to run_execute('unzip-sdm.zip')
     end
 
     it 'converges successfully' do
