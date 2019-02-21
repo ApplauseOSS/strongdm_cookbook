@@ -2,7 +2,7 @@
 # Cookbook Name:: strongdm
 # Recipe:: relay
 #
-# Copyright © 2018 Applause App Quality, Inc.
+# Copyright © 2018-2019 Applause App Quality, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 
 include_recipe 'strongdm::default'
 
-strongdm_install node['fqdn'] do
+strongdm_install node['hostname'] do
   advertise_address node['strongdm']['relay_advertise_address']
   bind_address node['strongdm']['relay_bind_address']
   bind_port node['strongdm']['relay_bind_port']

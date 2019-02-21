@@ -2,7 +2,7 @@
 # Cookbook Name:: strongdm
 # Spec:: gateway
 #
-# Copyright © 2018 Applause App Quality, Inc.
+# Copyright © 2018-2019 Applause App Quality, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ describe 'strongdm::gateway' do
     end
 
     it 'creates sdm gateway install' do
-      expect(chef_run).to create_strongdm_install('fauxhai.local').with(
+      expect(chef_run).to create_strongdm_install('Fauxhai').with(
         type: 'gateway'
       )
     end
