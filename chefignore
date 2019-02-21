@@ -19,3 +19,9 @@
 # tests
 /spec
 /test
+
+# rubocop
+\.rubocop.yml
+
+# bundler
+Gemfile*

@@ -41,3 +41,11 @@ suites:
     attributes:
       strongdm:
         admin_token: CHANGEME
+  - name: gateway-server
+    run_list:
+      - recipe[openssh::default]
+      - recipe[strongdm::server]
+      - recipe[strongdm::gateway]
+    attributes:
+      strongdm:
+        admin_token: CHANGEME
