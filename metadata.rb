@@ -6,8 +6,6 @@ description      'Installs and configures strongDM'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.5.2'
 
-depends 'ark'
-
 %w(redhat centos scientific amazon ubuntu debian suse).each do |os|
   supports os
 end

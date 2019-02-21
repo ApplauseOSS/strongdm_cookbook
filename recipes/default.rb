@@ -2,7 +2,7 @@
 # Cookbook Name:: strongdm
 # Recipe:: default
 #
-# Copyright © 2018 Applause App Quality, Inc.
+# Copyright © 2018-2019 Applause App Quality, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,12 +17,14 @@
 # limitations under the License.
 #
 
-include_recipe 'ark'
+package 'unzip'
 
-ark 'sdm' do
-  action :cherry_pick
-  url node['strongdm']['url']
-  path Chef::Config['file_cache_path']
-  extension 'zip'
-  creates 'sdm'
+remote_file "#{Chef::Config['file_cache_path']}/sdm.zip" do
+  source node['strongdm']['url']
+end
+
+execute 'unzip-sdm.zip' do
+  command 'unzip sdm.zip'
+  cwd Chef::Config['file_cache_path']
+  creates "#{Chef::Config['file_cache_path']}/sdm"
 end
