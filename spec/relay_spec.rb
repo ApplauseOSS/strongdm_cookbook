@@ -2,7 +2,7 @@
 # Cookbook Name:: strongdm
 # Spec:: relay
 #
-# Copyright © 2018 Applause App Quality, Inc.
+# Copyright © 2018-2019 Applause App Quality, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ describe 'strongdm::relay' do
     end
 
     it 'creates sdm relay install' do
-      expect(chef_run).to create_strongdm_install('fauxhai.local').with(
+      expect(chef_run).to create_strongdm_install('Fauxhai').with(
         type: 'relay'
       )
     end

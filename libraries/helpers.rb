@@ -22,7 +22,7 @@ module StrongDM
     def sdm_relay_token(admin_token, name, type = 'relay', ip = nil, port = 5000, bind_ip = '0.0.0.0', bind_port = 5000)
       return nil if admin_token.nil?
       ip = node['ipaddress'] if ip.nil?
-      name = node['fqdn'] if name.nil?
+      name = node['hostname'] if name.nil?
       token = Mixlib::ShellOut.new(
         sdm,
         'relay',
