@@ -50,6 +50,12 @@ action :create do
     mode 0700
   end
 
+  directory "#{home_dir}/.sdm" do
+    owner new_resource.user_name
+    group new_resource.user_name
+    mode 0700
+  end
+
   pubkey = 'DO-NOT-MATCH'
   ruby_block 'register-server' do
     block do
