@@ -33,6 +33,22 @@ action :create do
   ip = new_resource.advertise_address ? new_resource.advertise_address : node.run_state['ipaddress']
   ### TODO: make this pick the correct location
   home_dir = new_resource.home_dir ? new_resource.home_dir : "/home/#{new_resource.user_name}"
+  relay_token = if new_resource.relay_token
+                  new_resource.relay_token
+                else
+                  sdm_relay_token(
+                    admin_token,
+                    new_resource.instance_name,
+                    new_resource.type,
+                    ip,
+                    new_resource.port,
+                    new_resource.bind_address,
+                    new_resource.bind_port
+                  )
+                end
+
+  # Sanity check our code
+  Chef::Application.fatal!('Unable to fetch SDM_RELAY_TOKEN') if relay_token.nil?
 
   user new_resource.user_name do
     home home_dir
@@ -52,19 +68,7 @@ action :create do
           'UID' => '0',
           'USER' => 'root',
           'USERNAME' => 'root',
-          'SDM_RELAY_TOKEN' => if new_resource.relay_token
-                                 new_resource.relay_token
-                               else
-                                 sdm_relay_token(
-                                   admin_token,
-                                   new_resource.instance_name,
-                                   new_resource.type,
-                                   ip,
-                                   new_resource.port,
-                                   new_resource.bind_address,
-                                   new_resource.bind_port
-                                 )
-                               end,
+          'SDM_RELAY_TOKEN' => relay_token,
         }
       end
     )
