@@ -49,7 +49,7 @@ module StrongDM
 
     # Finds the "sdm" binary
     def sdm
-      return "#{Chef::Config['file_cache_path']}/sdm" if lazy { ::File.exist?("#{Chef::Config['file_cache_path']}/sdm") }
+      return "#{Chef::Config['file_cache_path']}/sdm" if ::File.exist?("#{Chef::Config['file_cache_path']}/sdm")
       # assume we're in the PATH
       'sdm'
     end
