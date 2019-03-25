@@ -25,11 +25,11 @@ property :instance_name, String, name_property: true
 property :user_name, [String, Integer], default: 'strongdm'
 
 action :create do
-  admin_token = new_resource.admin_token ? new_resource.admin_token : node['strongdm']['admin_token']
-  ip = new_resource.advertise_address ? new_resource.advertise_address : node.run_state['ipaddress']
+  admin_token = new_resource.admin_token || node['strongdm']['admin_token']
+  ip = new_resource.advertise_address || node.run_state['ipaddress']
   ### TODO: make this pick the correct location
-  home_dir = new_resource.home_dir ? new_resource.home_dir : "/home/#{new_resource.user_name}"
-  roles = new_resource.granted_roles ? new_resource.granted_roles : [*node['strongdm']['default_grant_roles']]
+  home_dir = new_resource.home_dir || "/home/#{new_resource.user_name}"
+  roles = new_resource.granted_roles || [*node['strongdm']['default_grant_roles']]
 
   user new_resource.user_name do
     home home_dir
@@ -74,16 +74,19 @@ action :create do
     end
     notifies :delete, "file[#{home_dir}/.sdm/roles]", :immediately
     not_if do
-      tester = Mixlib::ShellOut.new(
+      # short-circuits to prevent reaching out to strongdm
+      return false unless ::File.exist?("#{home_dir}/.ssh/authorized_keys")
+      return false if ::File.empty?("#{home_dir}/.ssh/authorized_keys")
+      cmd = Mixlib::ShellOut.new(
         sdm, 'admin', 'servers', 'list',
         'environment' => { 'SDM_ADMIN_TOKEN' => admin_token }
       )
-      if ::File.exist?("#{home_dir}/.ssh/authorized_keys") &&
-         !::File.readlines("#{home_dir}/.ssh/authorized_keys").grep(/#{pubkey}/).empty?
+      # do sdm admin servers list
+      cmd.run_command
+      if cmd.exitstatus == 0 && cmd.stdout.chomp.include?(node['fqdn'])
         true
       else
-        tester.run_command
-        true if tester.exitstatus == 0 && tester.stdout.chomp.include?(node['fqdn'])
+        false
       end
     end
   end
