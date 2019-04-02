@@ -23,4 +23,5 @@ strongdm_server node['fqdn'] do
   admin_token node['strongdm']['admin_token']
   advertise_address node['ipaddress']
   granted_roles node['strongdm']['default_grant_roles']
+  ignore_failure node['strongdm']['ignore_registration_failures']
 end

@@ -20,6 +20,9 @@
 # Set this however you see fit
 default['strongdm']['admin_token'] = nil
 
+# Allow failures to prevent failing Chef run
+default['strongdm']['ignore_registration_failures'] = false
+
 # Installation user
 default['strongdm']['url'] = 'https://app.strongdm.com/releases/cli/linux'
 default['strongdm']['user'] = 'strongdm'

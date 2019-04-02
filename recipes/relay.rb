@@ -26,5 +26,6 @@ strongdm_install node['hostname'] do
   port node['strongdm']['relay_port']
   user_name node['strongdm']['user']
   type 'relay'
+  ignore_failure node['strongdm']['ignore_registration_failures']
   action :create
 end

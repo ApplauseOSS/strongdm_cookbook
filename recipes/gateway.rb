@@ -26,5 +26,6 @@ strongdm_install node['hostname'] do
   bind_port node['strongdm']['gateway_bind_port']
   port node['strongdm']['gateway_port']
   user_name node['strongdm']['user']
+  ignore_failure node['strongdm']['ignore_registration_failures']
   action :create
 end
