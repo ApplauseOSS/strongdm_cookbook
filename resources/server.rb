@@ -67,7 +67,7 @@ action :create do
       )
       server.run_command
       pubkey = server.stdout.chomp
-      Chef::Application.fatal!('Unable to fetch public key from strongDM') if pubkey.empty?
+      raise 'Unable to fetch public key from strongDM' if pubkey.empty?
       keyfile = ::File.new("#{home_dir}/.ssh/authorized_keys", 'a')
       keyfile.write(pubkey)
       keyfile.close
