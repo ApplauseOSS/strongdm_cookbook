@@ -44,7 +44,7 @@ action :create do
   )
 
   # Sanity check our code
-  Chef::Application.fatal!('Unable to fetch SDM_RELAY_TOKEN') if relay_token.nil?
+  raise 'Unable to fetch SDM_RELAY_TOKEN' if relay_token.nil?
 
   user new_resource.user_name do
     home home_dir
@@ -70,6 +70,7 @@ action :create do
     )
     creates '/etc/systemd/system/sdm-proxy.service'
     notifies :delete, 'directory[/root/.sdm]', :immediately
+    sensitive true
   end
 
   directory '/root/.sdm' do
