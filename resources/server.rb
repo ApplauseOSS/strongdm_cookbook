@@ -2,7 +2,7 @@
 # Cookbook Name:: strongdm
 # Resource:: server
 #
-# Copyright © 2018 Applause App Quality, Inc.
+# Copyright © 2018-2019 Applause App Quality, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -73,21 +73,12 @@ action :create do
       keyfile.close
     end
     notifies :delete, "file[#{home_dir}/.sdm/roles]", :immediately
+    sensitive true
     not_if do
-      # short-circuits to prevent reaching out to strongdm
-      return false unless ::File.exist?("#{home_dir}/.ssh/authorized_keys")
-      return false if ::File.empty?("#{home_dir}/.ssh/authorized_keys")
-      cmd = Mixlib::ShellOut.new(
+      Mixlib::ShellOut.new(
         sdm, 'admin', 'servers', 'list',
         'environment' => { 'SDM_ADMIN_TOKEN' => admin_token }
-      )
-      # do sdm admin servers list
-      cmd.run_command
-      if cmd.exitstatus == 0 && cmd.stdout.chomp.include?(node['fqdn'])
-        true
-      else
-        false
-      end
+      ).run_command.stdout.chomp.include?(node['fqdn'])
     end
   end
 
