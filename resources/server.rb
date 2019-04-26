@@ -78,7 +78,7 @@ action :create do
       Mixlib::ShellOut.new(
         sdm, 'admin', 'servers', 'list',
         'environment' => { 'SDM_ADMIN_TOKEN' => admin_token }
-      ).run_command.stdout.chomp.include?(node['fqdn'])
+      ).run_command.stdout.chomp.include?(new_resource.instance_name)
     end
   end
 
