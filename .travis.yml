@@ -1,7 +1,6 @@
 sudo: required
 dist: trusty
 
-
 addons:
   apt:
     sources:
@@ -36,4 +35,4 @@ matrix:
   include:
     - script:
       - chef exec delivery local all
-      env: UNIT_AND_LINT=1
+      env: UNIT_AND_LINT=1 CHEF_LICENSE=accept
